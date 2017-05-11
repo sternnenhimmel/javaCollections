@@ -20,4 +20,19 @@ optional-restrictions：一些实现类可以根据自己的情况对加入，qu
 接口，一个Modification操作。根据子类是否允许插入相同的Element，如果插入成功则返回true（List），如果已包含且不允许重复则返回false（Set）。如果子类因为除了已包含当前元素以外的原因拒绝插入，则必须抛出异常，此种机制保证了子类在执行了插入操作以后一定会包含当前元素。可能抛出的异常有：UnsupportedOperationException，ClassCastException，NullPointerException，IllegalArgumentException，IllegalStateException
 #### boolean remove(Object o);
 接口，把当前Element移除掉，如果包含一个或多个，即执行此操作后当前Collection产生变化，则返回true，否则返回false。
-
+#### boolean containsAll(Collection<?> c);
+接口，判断当前Collection是否包含了传入的Collection的所有元素。从说明来看，似乎可以进行元素的cast，不过应该要看子类具体的实现
+#### boolean addAll(Collection<? extends E> c);
+接口，会丢出和<em>boolean add(E e)</em>类似的Exception，另外，该操作不是原子操作，如果插入过程中c变化的话会引发未定义行为。
+#### boolean removeAll(Collection<?> c);
+接口，移除所有c中包含的元素，行为和<em>boolean remove(Object o)</em>类似
+#### default boolean removeIf(Predicate<? super E> filter)
+默认实现方法。默认会用Iterater遍历并且对匹配的元素调用<em>boolean remove(Object o)</em>，可以看出filter的反向操作。
+#### boolean retainAll(Collection<?> c);
+接口，只保留c中包含的元素，似乎是用<em>boolean contains(Object o)</em>和<em>boolean remove(Object o)</em>来实现的，即移除不包含的元素，但具体还是看子类。
+#### void clear();
+#### boolean equals(Object o);
+接口，如果直接实现Collection要对这个接口非常小心，最好还是依赖于Object自带的equals，由于List和Set的限制，List只能和List相等，Set只能和Set相等，一个Collection如果没有实现List和Set则不可能和他们相等，同样，也无法创建一个Class同时实现List和Set
+#### int hashCode();
+接口，返回hashCode，<tt>Object.hashCode</tt>，一个实现了<em>boolean equals(Object o)</em>也必须实现当前实现类
+#### 

@@ -35,4 +35,9 @@ optional-restrictions：一些实现类可以根据自己的情况对加入，qu
 接口，如果直接实现Collection要对这个接口非常小心，最好还是依赖于Object自带的equals，由于List和Set的限制，List只能和List相等，Set只能和Set相等，一个Collection如果没有实现List和Set则不可能和他们相等，同样，也无法创建一个Class同时实现List和Set
 #### int hashCode();
 接口，返回hashCode，<tt>Object.hashCode</tt>，一个实现了<em>boolean equals(Object o)</em>也必须实现当前实现类
-#### 
+#### default Spliterator<E> spliterator()
+默认实现为带late-binding特性的一个Spliterator，fail-fast特性继承自子类的Iterator。默认实现需要被改写以实现高效的拆分。子类实现中，创建Spliterator时需要加入该子类的各种特性。比如SIZED，IMMUTABLE，CONCURRENT等。
+#### default Stream<E> stream()
+默认实现为使用本集合的元素创建一个Stream，当本集合不包含late-binding，IMMUTABLE，CONCURRENT中的任何一个特性时，当前函数需要被重写。
+#### default Stream<E> parallelStream()
+创建一个并行的Stream，当本集合不包含late-binding，IMMUTABLE，CONCURRENT中的任何一个特性时，当前函数需要被重写。

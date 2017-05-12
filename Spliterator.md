@@ -1,3 +1,5 @@
+package java.util;
+
 ### 概要
 为了多线程遍历而设计，是Iterator的变种。会把一个Array或者类似物拆掉，拆成几个片段。含有各种属性，比如SORTED，DISTINCT，SIZED，NONNULL，CONCURRENT等。可以提供剩下未处理元素的大小的估计，用于决定要不要继续进行splite。Spliterator默认并不是线程安全的，Spliterator只是数据源的一部分，默认情况下不能有多个线程在同一个Spliterator上操作。对于可变的源，在Spliterator bind到源上以及循环结束这段时间期间，如果源产生了变化，则会造成未定义的行为。  
 JDK中很多源提供"late-binding"和"fail-fast"功能，即在方法开始循环或者估算剩余大小时才bind到源上，减小受到源变换影响的时间段，以及实时检测源是否变化，若在操作过程中源变化，则抛出Exception，避免未定义行为  

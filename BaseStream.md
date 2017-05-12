@@ -1,3 +1,5 @@
+package java.util.stream;
+
 ### 概览
 Stream API的基本接口，是一连串支持聚合和并行的元素
 ### 方法

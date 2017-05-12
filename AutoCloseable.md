@@ -1,3 +1,5 @@
+package java.lang;
+
 ### 概览
 这是一个接口，实现了该接口的类通过<em>{@code try}-with-resources</em>block获得的resource，在出现Exception时会自动调用当前接口所包含的方法，用来释放资源，其效果类似于C++中的析构函数。但使用的场合有一定差别。
 ### 方法

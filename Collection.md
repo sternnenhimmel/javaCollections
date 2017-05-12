@@ -1,3 +1,5 @@
+package java.util;
+
 ### 概况
 集合<i>collection hierarchy</i>的根节点，JDK中不对此根节点直接进行实现，而是实现它的子接口如<tt>Set</tt> 和 <tt>List</tt>，这个根节点的存在可以创造最大程度的泛型。   
 JDK中任何实现该interface的类都至少包含一个返回空的constructor和一个返回一个子元素的constructor。  

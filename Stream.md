@@ -46,3 +46,5 @@ Stream.of("one", "two", "three", "four")
     .collect(Collectors.toList());
 ```
 可以用来debug。
+#### Stream<T> limit(long maxSize);
+和`Stream<T> distinct()`一样，由于取的是前n个而不是任意n个，对于有序的`Stream`用串行很省资源而用并行效率极低，对于无序的`Stream`则取出任意n个，并行效率很高。

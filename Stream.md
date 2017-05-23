@@ -1,4 +1,5 @@
 ## 概览
+包：package java.util.stream;
 StreamApi算是java对函数式编程对支持，可以写出类似于如下代码：
 int sum = widgets.stream()
                      .filter(w -> w.getColor() == RED)
@@ -13,3 +14,35 @@ int sum = widgets.stream()
 除非`Stream`来源于IO接口，不然一般不需要调用`close()`去关闭，很多Stream是基于Collection的，它们基本上不需要去close
 
 ## 方法
+#### Stream<T> filter(Predicate<? super T> predicate);
+接口，<em>intermediate operations</em>，过滤子元素，predicate为labmda表达式
+#### <R> Stream<R> map(Function<? super T, ? extends R> mapper);
+接口，<em>intermediate operations</em>，子元素转换操作，mapper为labmda表达式
+#### IntStream mapToInt(ToIntFunction<? super T> mapper);
+接口，<em>intermediate operations</em>，mapper是一个输入为T，返回为int的function
+#### LongStream mapToLong(ToLongFunction<? super T> mapper);
+类似于上一个
+#### DoubleStream mapToDouble(ToDoubleFunction<? super T> mapper);
+类似于上一个
+#### <R> Stream<R> flatMap(Function<? super T, ? extends Stream<? extends R>> mapper);
+拆分用的函数。一对多，把一个Stream的Stream的子元素的子元素全部拿出来搞成一个新的Stream，层级少了一层。如果某一个元素返回的Stream为null，则视为空Stream，不影响执行。
+#### IntStream flatMapToInt(Function<? super T, ? extends IntStream> mapper);
+#### LongStream flatMapToLong(Function<? super T, ? extends LongStream> mapper);
+#### DoubleStream flatMapToDouble(Function<? super T, ? extends DoubleStream> mapper);
+#### Stream<T> distinct();
+一个很有趣的接口，返回无重复的`Stream`，对于有序的`Stream`，如果要保证顺序，即保留第一个出现的，应该使用单线程，在这里使用多线程会大大降低效率。如果不需要保证有序或者不需要保证留下的一定是第一个出现的，那么使用多线程计算会快很多。
+#### Stream<T> sorted();
+返回一个整理好的`Stream`，`Stream`是否有序决定了所谓的`Stability`，该函数依赖于子元素对于`Comparable`的实现，如果子元素不符合要求，可能丢出`ClassCastException`
+#### Stream<T> sorted(Comparator<? super T> comparator);
+`Stability`和上一个一样，该函数最简单的应用即为函数式编程的应用。其中`Comparator`挺复杂的，事后值得研究一下。
+#### Stream<T> peek(Consumer<? super T> action);
+这个很有意思，保持当前`Stream`不变，但同时执行一次ForEach，用法如下所示：
+```java
+Stream.of("one", "two", "three", "four")
+    .filter(e -> e.length() > 3)
+    .peek(e -> System.out.println("Filtered value: " + e))
+    .map(String::toUpperCase)
+    .peek(e -> System.out.println("Mapped value: " + e))
+    .collect(Collectors.toList());
+```
+可以用来debug。

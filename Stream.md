@@ -50,3 +50,20 @@ Stream.of("one", "two", "three", "four")
 可以用来debug。
 #### Stream<T> limit(long maxSize);
 和`Stream<T> distinct()`一样，由于取的是前n个而不是任意n个，对于有序的`Stream`用串行很省资源而用并行效率极低，对于无序的`Stream`则取出任意n个，并行效率很高。
+#### void forEach(Consumer<? super T> action);
+对每个元素执行操作，顺序不确定，任何元素对应的操作都有可能在任何时间任何线程执行
+#### void forEachOrdered(Consumer<? super T> action);
+对每个元素执行对应的操作，永远按照源数据所规定的顺序来执行。可以用如下方法来测试：
+```java
+@Test
+  public void testForEachOrdered() {
+    java.util.stream.Stream.of("AAA", "BBB", "CCC").parallel().forEach(s -> System.out.println("Output:" + s));
+    java.util.stream.Stream.of("AAA", "BBB", "CCC").parallel().forEachOrdered(s -> System.out.println("Output:" + s));
+  }
+```
+#### Object[] toArray();
+`terminal operation`，在java里面Array是一种确定的存在。默认只能产生java.lang.Object[]，没有什么用处
+#### <A> A[] toArray(IntFunction<A[]> generator);
+`terminal operation`，这个点不是很好理解，貌似就是要传一个new进去，不怎么好用
+#### T reduce(T identity, BinaryOperator<T> accumulator);
+有很好的并行性能，sum，avg等都是reduce的特殊情况

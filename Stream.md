@@ -67,3 +67,8 @@ Stream.of("one", "two", "three", "four")
 `terminal operation`，这个点不是很好理解，貌似就是要传一个new进去，不怎么好用
 #### T reduce(T identity, BinaryOperator<T> accumulator);
 有很好的并行性能，sum，avg等都是reduce的特殊情况
+#### Optional<T> reduce(BinaryOperator<T> accumulator);
+不需要初始值的reduce，其实就是直接把第一个值作为初始值开始聚合，由于前一个function中要求初始值和第一个值的聚合必须等于第一个值，所以其实两者是等价的。
+#### <U> U reduce(U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner);
+#### T reduce(T identity, BinaryOperator<T> accumulator
+#### T reduce(T identity, BinaryOperator<T> accumulator);
